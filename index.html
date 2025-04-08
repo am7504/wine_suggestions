@@ -132,18 +132,16 @@
 
             try {
                 // Gemini 2.0 Flash
-                const chat_resp = await puter.ai.chat(`Make me a wine suggestion based on the fact that I like to eat ${food}.`, { model: 'gemini-2.0-flash', stream: true });
+                const chat_resp = await puter.ai.chat(`Make me a wine suggestion based on the fact that I like to eat ${food}. Response first with 'Of Course!, then give a numbered list of the 3 top choices`, { model: 'gemini-2.0-flash', stream: true });
                 const heading = document.createElement('h2');
                 heading.textContent = `Wine Suggestion for "${food}":`;
                 outputDiv.appendChild(heading);
-                
-                const par = document.createElement('p');
 
-                for await ( const part of chat_resp ) {
+		const paragraph = document.createElement('p');
+                for await (const part of chat_resp) {
                     paragraph.innerHTML = part?.text?.replaceAll('\n', '<br>');
                     outputDiv.appendChild(paragraph);
                 }
-
                 loadingText.textContent = ''; // Clear loading message
             } catch (error) {
                 console.error("Error fetching suggestion:", error);
