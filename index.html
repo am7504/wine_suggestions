@@ -8,22 +8,31 @@
         body {
             font-family: sans-serif;
             /* Red wave linear gradient background */
-            background: linear-gradient(to right, #ff0000, #cc0000, #ff0000); /* Basic red gradient */
+            background: linear-gradient(to right bottom, #c31432, #1D2671); /* Basic red gradient */
             background-size: 200% 100%; /* Make it wider than the viewport for animation */
-            animation: wave 5s infinite alternate; /* Apply wave animation */
+            animation: infiniteGradientLoop 8s infinite linear;/* Apply wave animation */
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
         }
-
-        @keyframes wave {
+        
+         @keyframes infiniteGradientLoop {
             0% {
-                background-position: 0% 50%;
+                background-position: 100% 0%; /* Top-right */
+            }
+            25% {
+                background-position: 0% 100%; /* Bottom-left */
+            }
+            50% {
+                background-position: 0% 0%; /* Top-left */
+            }
+            75% {
+                background-position: 100% 100%; /* Bottom-right (red dominant again) */
             }
             100% {
-                background-position: 100% 50%;
+                background-position: 100% 0%; /* Loop back to top-right */
             }
         }
 
@@ -127,8 +136,13 @@
                 const heading = document.createElement('h2');
                 heading.textContent = `Wine Suggestion for "${food}":`;
                 outputDiv.appendChild(heading);
+                
+                const par = document.createElement('p');
 
-                for await ( const part of chat_resp ) puter.print(part?.text?.replaceAll('\n', '<br>'));
+                for await ( const part of chat_resp ) {
+                    paragraph.innerHTML = part?.text?.replaceAll('\n', '<br>');
+                    outputDiv.appendChild(paragraph);
+                }
 
                 loadingText.textContent = ''; // Clear loading message
             } catch (error) {
