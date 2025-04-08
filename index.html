@@ -133,16 +133,22 @@
             try {
                 // Gemini 2.0 Flash
                 const chat_resp = await puter.ai.chat(`Make me a wine suggestion based on the fact that I like to eat ${food}. Response first with 'Of Course!, then give a numbered list of the 3 top choices`, { model: 'gemini-2.0-flash' })
-                .then(response => {
-		        const heading = document.createElement('h2');
-		        heading.textContent = `Wine Suggestion for "${food}":`;
-		        outputDiv.appendChild(heading);
+		.then(response => {
+		    const heading = document.createElement('h2');
+		    heading.textContent = `Wine Suggestion for "${food}":`;
+		    outputDiv.appendChild(heading);
 
-			const paragraph = document.createElement('p');
-			paragraph.innerHTML = response.message.content;
-			outputDiv.appendChild(paragraph);
-		        loadingText.textContent = ''; // Clear loading message
-                });
+		    let responseText = response.message.content.replaceAll('\n', '<br>');
+
+		    // Replace text enclosed in ** with <b> tags using a regular expression
+		    responseText = responseText.replace(/\*\*(.*?)\*\*/gs, '<b>$1</b>');
+
+		    const paragraph = document.createElement('p');
+		    paragraph.innerHTML = responseText;
+		    outputDiv.appendChild(paragraph);
+		    loadingText.textContent = ''; // Clear loading message
+		});
+
                 
             } catch (error) {
                 console.error("Error fetching suggestion:", error);
