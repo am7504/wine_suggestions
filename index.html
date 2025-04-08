@@ -112,7 +112,6 @@
         </div>
 
         <div id="output">
-            <p id="loading"></p>
         </div>
     </div>
 
@@ -121,20 +120,20 @@
             const foodInput = document.getElementById('food-input');
             const food = foodInput.value.trim();
             const outputDiv = document.getElementById('output');
-            const loadingText = document.getElementById('loading');
 
             if (!food) {
                 outputDiv.innerHTML = '<p style="color: orange;">Please enter a food item.</p>';
                 return;
             }
 
-            outputDiv.innerHTML = '';
-            loadingText.textContent = `Fetching wine suggestion for "${food}"...`;
+            outputDiv.innerHTML = `<p style="color: Gray;">Fetching wine suggestion for "${food}"...</p>`;
+            
 
             try {
                 // Gemini 2.0 Flash
                 const chat_resp = await puter.ai.chat(`Make me a wine suggestion based on the fact that I like to eat ${food}. Response first with 'Of Course!, then give a numbered list of the 3 top choices`, { model: 'gemini-2.0-flash' })
 		.then(response => {
+		    outputDiv.innerHTML = '';
 		    const heading = document.createElement('h2');
 		    heading.textContent = `Wine Suggestion for "${food}":`;
 		    outputDiv.appendChild(heading);
@@ -147,7 +146,6 @@
 		    const paragraph = document.createElement('p');
 		    paragraph.innerHTML = responseText;
 		    outputDiv.appendChild(paragraph);
-		    loadingText.textContent = ''; // Clear loading message
 		});
 
                 
