@@ -128,7 +128,7 @@
 
             try {
                 // Gemini 2.0 Flash
-                const chat_resp = await puter.ai.chat(`Make me a wine suggestion based on the fact that I like to eat ${food}. Response first with 'Of Course!, then give a numbered list of the 3 top choices`, { model: 'gemini-2.0-flash' })
+                const chat_resp = await puter.ai.chat(`Make me a wine suggestion based on the fact that I like to eat ${food}. Respond as if you are a rich french wine person that humorously comments on the food choice before listing the wines, say: 'Here you go!', then give a numbered list of the 3 top choices, each choice being bolded with the '**'. `, { model: 'gemini-2.0-flash' })
 		.then(response => {
 		    outputDiv.innerHTML = '';
 		    const heading = document.createElement('h2');
